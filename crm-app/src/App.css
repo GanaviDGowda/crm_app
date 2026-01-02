@@ -1,42 +1,172 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+/* =========================
+   GLOBAL RESET & BASE
+========================= */
+
+body {
+  background-color: #f4f6f9;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+a {
+  text-decoration: none;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+h1, h2, h3, h4, h5 {
+  font-weight: 600;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+/* =========================
+   NAVBAR
+========================= */
+
+.navbar {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
 }
+
+.navbar-brand {
+  font-size: 1.3rem;
+  letter-spacing: 0.5px;
+}
+
+.navbar .nav-link {
+  color: #ddd !important;
+  margin-right: 12px;
+  font-weight: 500;
+}
+
+.navbar .nav-link:hover {
+  color: #ffffff !important;
+}
+
+.navbar .badge {
+  font-size: 0.8rem;
+  padding: 6px 10px;
+}
+
+/* =========================
+   CONTAINERS & LAYOUT
+========================= */
+
+.container {
+  max-width: 1100px;
+}
+
+.page-title {
+  margin-bottom: 20px;
+  font-size: 1.4rem;
+  color: #333;
+}
+
+/* =========================
+   DASHBOARD CARDS
+========================= */
 
 .card {
-  padding: 2em;
+  border-radius: 10px;
+  border: none;
 }
 
-.read-the-docs {
-  color: #888;
+.card.shadow-sm {
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08) !important;
 }
+
+.stat-card {
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.15);
+}
+
+.stat-card h2 {
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+/* =========================
+   FORMS
+========================= */
+
+.form-control,
+.form-select {
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.15rem rgba(13, 110, 253, 0.25);
+}
+
+textarea.form-control {
+  resize: none;
+}
+
+button {
+  border-radius: 6px !important;
+}
+
+/* =========================
+   CUSTOMER LIST
+========================= */
+
+.customer-card {
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.customer-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12);
+}
+
+.customer-card h5 {
+  margin-bottom: 4px;
+}
+
+.customer-card p {
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* =========================
+   BADGES & STATUS
+========================= */
+
+.badge {
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+
+.badge.bg-success {
+  background-color: #28a745 !important;
+}
+
+.badge.bg-secondary {
+  background-color: #6c757d !important;
+}
+
+.badge.bg-dark {
+  background-color: #343a40 !important;
+}
+
+/* =========================
+   INTERACTION SECTION
+========================= */
+
+.interaction-box {
+  background-color: #f8f9fa;
+  padding: 12px;
+  border-radius: 8px;
+  margin-top: 10px;
+}
+
+.interaction-box button {
+  margin-top: 5px;
+}
+
+/* =========================
+   AUTH PAGES (LOGIN / SIGNUP)
+========
