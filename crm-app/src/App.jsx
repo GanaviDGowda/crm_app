@@ -1,54 +1,25 @@
-import { Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import Login from './auth/Login'
 import Signup from './auth/Signup'
 import Dashboard from './dashboard/Dashboard'
 import CustomerList from './customers/CustomerList'
 import AddCustomer from './customers/AddCustomer'
-import ProtectedRoute from './auth/ProtectedRoute'
-import FollowUps from './followups/FollowUps.jsx'
+import FollowUps from './followups/FollowUps'
 
 export default function App() {
   return (
-    <Routes>
-      <Route path="/login" element={<Login />} />
-      <Route path="/signup" element={<Signup />} />
+    <BrowserRouter>
+      <Routes>
+        {/* ✅ ROOT FIX */}
+        <Route path="/" element={<Navigate to="/login" />} />
 
-      <Route
-        path="/dashboard"
-        element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/customers"
-        element={
-          <ProtectedRoute>
-            <CustomerList />
-          </ProtectedRoute>
-        }
-      />
-
-      <Route
-        path="/customers/add"
-        element={
-          <ProtectedRoute>
-            <AddCustomer />
-          </ProtectedRoute>
-        }
-      />
-
-<Route
-  path="/followups"
-  element={
-    <ProtectedRoute>
-      <FollowUps />
-    </ProtectedRoute>
-  }
-/>
-
-    </Routes>
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/customers" element={<CustomerList />} />
+        <Route path="/customers/add" element={<AddCustomer />} />
+        <Route path="/followups" element={<FollowUps />} />
+      </Routes>
+    </BrowserRouter>
   )
 }
