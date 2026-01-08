@@ -1,28 +1,44 @@
 import { supabase } from '../supabase'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
+import { useState } from 'react'
 
 export default function Signup() {
   const navigate = useNavigate()
 
+  const [loading, setLoading] = useState(false)
+  const [errorMsg, setErrorMsg] = useState('')
+
   const signup = async (e) => {
     e.preventDefault()
+    setErrorMsg('')
+    setLoading(true)
 
     const email = e.target.email.value
     const password = e.target.password.value
+
+    if (password.length < 6) {
+      setErrorMsg('Password must be at least 6 characters')
+      setLoading(false)
+      return
+    }
 
     const { error } = await supabase.auth.signUp({
       email,
       password,
     })
 
-    if (!error) {
+    setLoading(false)
+
+    if (error) {
+      setErrorMsg(error.message)
+    } else {
       navigate('/login')
     }
   }
 
   return (
-    <div className="container auth-container col-md-4">
-      <div className="card auth-card p-4">
+    <div className="container col-md-4">
+      <div className="card p-4">
         <h3>Create Account</h3>
 
         <form onSubmit={signup}>
@@ -41,14 +57,23 @@ export default function Signup() {
             required
           />
 
-          <button className="btn btn-primary w-100">
-            Sign Up
-          </button>
-          <p className="text-center mt-3">
-  Already have an account?{' '}
-  <a href="/login">Login</a>
-</p>
+          {errorMsg && (
+            <div className="alert alert-danger">
+              {errorMsg}
+            </div>
+          )}
 
+          <button
+            className="btn btn-primary w-100"
+            disabled={loading}
+          >
+            {loading ? 'Signing up...' : 'Sign Up'}
+          </button>
+
+          <p className="text-center mt-3">
+            Already have an account?{' '}
+            <Link to="/login">Login</Link>
+          </p>
         </form>
       </div>
     </div>

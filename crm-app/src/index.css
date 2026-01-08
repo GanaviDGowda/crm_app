@@ -66,3 +66,15 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+/* Remove default link styles in sidebar */
+.sidebar a {
+  color: #212529;        /* Bootstrap text color */
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.sidebar a:hover {
+  background-color: #e9ecef;
+  color: #000;
+  text-decoration: none;
+}

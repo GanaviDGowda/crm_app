@@ -1,51 +1,65 @@
 import { supabase } from '../supabase'
 import { useEffect, useState } from 'react'
-import Navbar from '../components/Navbar'
 
 export default function Dashboard() {
-  const [stats, setStats] = useState({
-    customers: 0,
-    interactions: 0,
-  })
+  const [stats, setStats] = useState({ customers: 0, interactions: 0 })
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    load()
+    loadStats()
+
+    const channel = supabase
+      .channel('dashboard-stats')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'customers' },
+        loadStats
+      )
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'interactions' },
+        loadStats
+      )
+      .subscribe()
+
+    return () => {
+      supabase.removeChannel(channel)
+    }
   }, [])
 
-  const load = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-
-    // customers count
+  const loadStats = async () => {
     const { count: customers } = await supabase
       .from('customers')
       .select('id', { count: 'exact', head: true })
-      .eq('user_id', user.id)
 
-    // interactions count (via customers)
     const { count: interactions } = await supabase
       .from('interactions')
-      .select(
-        'id, customers!inner(user_id)',
-        { count: 'exact', head: true }
-      )
-      .eq('customers.user_id', user.id)
+      .select('id', { count: 'exact', head: true })
 
-    setStats({ customers, interactions })
+    setStats({
+      customers: customers || 0,
+      interactions: interactions || 0,
+    })
+    setLoading(false)
+  }
+
+  if (loading) {
+    return (
+      <div className="container mt-5 text-center">
+        <div className="spinner-border text-primary" />
+      </div>
+    )
   }
 
   return (
-    <>
-      <Navbar />
+    <div className="container mt-4">
+      <h4 className="mb-4">Dashboard Overview</h4>
 
-      <div className="container mt-4">
-        <h4 className="mb-4">Dashboard Overview</h4>
-
-        <div className="row">
-          <StatCard title="Customers" value={stats.customers} color="primary" />
-          <StatCard title="Interactions" value={stats.interactions} color="success" />
-        </div>
+      <div className="row">
+        <StatCard title="Customers" value={stats.customers} color="primary" />
+        <StatCard title="Interactions" value={stats.interactions} color="success" />
       </div>
-    </>
+    </div>
   )
 }
 

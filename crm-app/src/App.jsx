@@ -7,19 +7,62 @@ import CustomerList from './customers/CustomerList'
 import AddCustomer from './customers/AddCustomer'
 import FollowUps from './followups/FollowUps'
 
+import ProtectedRoute from './auth/ProtectedRoute'
+import Layout from './components/Layout'
+
 export default function App() {
   return (
     <Routes>
-      {/* ✅ SIGNUP FIRST */}
       <Route path="/" element={<Navigate to="/signup" replace />} />
 
+      {/* Public */}
       <Route path="/signup" element={<Signup />} />
       <Route path="/login" element={<Login />} />
 
-      <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/customers" element={<CustomerList />} />
-      <Route path="/customers/add" element={<AddCustomer />} />
-      <Route path="/followups" element={<FollowUps />} />
+      {/* Protected */}
+      <Route
+        path="/dashboard"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <Dashboard />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/customers"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <CustomerList />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/customers/add"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <AddCustomer />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/followups"
+        element={
+          <ProtectedRoute>
+            <Layout>
+              <FollowUps />
+            </Layout>
+          </ProtectedRoute>
+        }
+      />
 
       <Route path="*" element={<Navigate to="/signup" replace />} />
     </Routes>
